@@ -1,0 +1,14 @@
+{
+
+    name: "sqhdshqd"
+    content: [
+
+        {
+            type: TEXT,VIDEO,IMAGE
+            content: "" // link
+            posX: 321
+            posY: 322
+            css: ""
+        },
+    ]
+}

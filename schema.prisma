@@ -1,0 +1,20 @@
+datasource db {
+    provider = "sqlite"
+    url      = "file:./storage.db"
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model Alert {
+    id     String     @id @default(uuid())
+    name String
+    SchemaPath   String
+}
+
+
+model Config {
+    name String @id
+    value String
+}
