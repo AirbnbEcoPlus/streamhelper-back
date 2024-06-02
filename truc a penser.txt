@@ -12,3 +12,17 @@
         },
     ]
 }
+
+
+domain.com/widgets/chat-higlifdskf?token="é&"é&"é&"é&
+
+
+
+//////
+
+connect()
+
+
+add_command(String actipnEvent, String )
+
+

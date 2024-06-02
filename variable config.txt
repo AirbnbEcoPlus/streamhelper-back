@@ -1,0 +1,6 @@
+
+chatbot_enabled (true/false)
+
+bot_username (string)
+oauth_token (string)
+channel_name (string)

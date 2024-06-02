@@ -13,6 +13,25 @@ model Alert {
     SchemaPath   String
 }
 
+model Event {
+    id String @id @default(uuid())
+    name String
+}
+
+model Command {
+    id String @id @default(uuid())
+    name String
+    actionCommand String
+    responseText String
+    active Boolean @default(true)
+}
+
+model Bot {
+    id String @id @default(uuid())
+    name String
+    referer String
+    login_info String
+}
 
 model Config {
     name String @id

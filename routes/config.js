@@ -1,4 +1,4 @@
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 module.exports = function (app, prisma) {
     var jsonParser = bodyParser.json()
 
