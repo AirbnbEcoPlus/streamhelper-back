@@ -12,12 +12,6 @@ class BotController {
         this.botList = botList ?? new Map([["twitch", new twitchBot()], ["youtube", new youtubeBot()]])
     }
 
-    /**
-     *
-     *
-     * @param {string} botServiceList - liste des services de bots concernés par le reload (si vide: s'execute pour tous les bots)
-     * @memberof BotController
-     */
     async loadBotsCommands(botServiceList) {
         for (const [service, bot] of this.botList.entries()) {
             bot.loadCommands(await this.prisma.command.findMany())
