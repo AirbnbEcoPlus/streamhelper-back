@@ -40,7 +40,9 @@ module.exports = function (app, prisma) {
         res.json(response)
     });
 
-    app.get("/bot/restart", async (req, res) => {
-        botControl.init()
+
+    app.get("/bot/reload_commands", async (req, res) => {
+        botControl.reloadBotsCommands()
     })
+
 }

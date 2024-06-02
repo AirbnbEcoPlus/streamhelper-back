@@ -3,32 +3,45 @@ const youtubeBot = require("./YoutubeBot")
 
 class BotController {
 
-    constructor() {
-        this.list = [new twitchBot(), new youtubeBot()]
+    /**
+     * Creates an instance of BotController.
+     * @param {Map<string, BotBase>} botList
+     * @memberof BotController
+     */
+    constructor(botList) {
+        this.botList = botList ?? new Map([["twitch", new twitchBot()], ["youtube", new youtubeBot()]])
     }
 
-    async init() {
-        for (const bot of this.list) {
-            console.log(bot.referer)
-            const commands = await this.prisma.command.findMany({
-                where: {
-                    referer: bot.referer
-                }
-            })
-            for (const command of commands) {
-                bot.addCommand(command.actionCommand, command.responseText)
-            }
+    /**
+     *
+     *
+     * @param {string} botServiceList - liste des services de bots concernés par le reload (si vide: s'execute pour tous les bots)
+     * @memberof BotController
+     */
+    async loadBotsCommands(botServiceList) {
+        for (const [service, bot] of this.botList.entries()) {
+            bot.loadCommands(await this.prisma.command.findMany())
         }
     }
 
+    async reloadBotsCommands(botServiceList) {
+        for (const [service, bot] of this.botList.entries()) {
+            bot.reloadCommands(await this.prisma.command.findMany())
+        }
+    }
 
+    getBot(service){
+        return this.botList.get(service)
+    }
+
+    //
     setPrisma(prisma) {
         this.prisma = prisma;
     }
 
     getServiceSupported() {
         let s = []
-        for (const bot of this.list) {
+        for (const bot of this.botList.entries()) {
             s.push(bot.getService())
         }
         return s
@@ -40,7 +53,6 @@ class BotController {
         }
         return this.instance;
     }
-
 
 }
 

@@ -1,34 +1,37 @@
 const tmi = require('tmi.js');
+const config = require('./config')
+const BotBase = require('./BotBase')
 
-class TwitchBot {
+class TwitchBot extends BotBase {
 
-    constructor(botname, login_info){
-        this.service = "twitch"
+    constructor(botname, login_info) {
+        super();
+        this.service = "twitch";
         this.client = new tmi.Client({
             options: { debug: true },
             identity: {
-                username: 'TestBot',
-                password: `oauth:${process.env.ACCESS_TOKEN}`
+                username: config.twitch.username,
+                password: `oauth:${process.env.ACCESS_TOKEN}`,
             },
-            channels: [ 'endide' ]
+            connection: {
+                reconnect: true,
+                secure: true
+            },
+            channels: config.twitch.channels
         });
-        this.client.connect().catch(console.error);
-        
+        this.init()
     }
 
-
-    addCommand(actionCommand, responseText){
-        this.client.on('message', (channel, tags, message, self) => {
-            if(self) return;
-            if(message.toLowerCase() === actionCommand) {
-                this.client.say(channel, responseText);
-            }
-        });
-    }
-
-    getService() {
-        return this.service
-    }
+    init() {
+        this.client.connect().catch(err => console.error(err)).then(() => {
+            this.client.on('message', (channel, tags, message, self) => {
+                if (self) return
+                if (this.commands.has(message.toLowerCase())) {
+                    this.client.say(channel, this.commands.get(message.toLowerCase()))
+                }
+            })
+        })
+    }    
     
 }
 

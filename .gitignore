@@ -14,3 +14,6 @@ benchmarks/graphs
 # ignore additional files using core.excludesFile
 # https://git-scm.com/docs/gitignore
 .env
+
+# ignore all config.js files (they need to be created from every config.sample.js)
+config.js
